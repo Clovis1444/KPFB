@@ -1,0 +1,36 @@
+{
+    "manifest_version": 2,
+    "name": "KPFB",
+    "version": "0.0.4",
+    "description": "Quick redirrect to Flickbar from Kinopoisk.",
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "KPFB@CLVS"
+        }
+    },
+    "icons": {
+        "48": "icons/kpfb-48.png"
+    },
+    "permissions": [
+        "tabs"
+    ],
+    "background": {
+        "scripts": [
+            "src/openFb.js"
+        ]
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "*://*.kinopoisk.ru/film/*",
+                "*://*.kinopoisk.ru/series/*"
+            ],
+            "js": [
+                "src/kpfb.js"
+            ]
+        }
+    ],
+    "web_accessible_resources": [
+        "icons/kpfb-48.png"
+    ]
+}
