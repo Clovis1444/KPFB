@@ -19,6 +19,20 @@ class Kpfb {
 			"html > body > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(3) > div > div > div > div > div > div:nth-of-type(2) > div"
 		);
 	}
+	static #PARENT4() {
+		return document.querySelector(
+			"html > body > div > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div:nth-of-type(3) > div > div > div > div > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div"
+		);
+	}
+
+	static #PARENT() {
+		return (
+			this.#PARENT1() ??
+			this.#PARENT2() ??
+			this.#PARENT3() ??
+			this.#PARENT4()
+		);
+	}
 
 	static #BUTTON_ONCLICK() {
 		try {
@@ -73,7 +87,7 @@ class Kpfb {
 
 		kpfb_button.onclick = this.#BUTTON_ONCLICK;
 
-		const parent = this.#PARENT1() ?? this.#PARENT2() ?? this.#PARENT3();
+		const parent = this.#PARENT();
 		parent.appendChild(kpfb_button);
 	}
 }
