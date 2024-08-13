@@ -1,0 +1,42 @@
+name: Project version check
+on:
+    push:
+        branches: "master"
+
+jobs:
+    version_check:
+        outputs:
+            project_version: ${{steps.get_version.outputs.project_version}}
+            tag_exists: ${{steps.check-tag.outputs.exists}}
+
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v4
+              with:
+                  submodules: recursive
+                  sparse-checkout: manifest.json
+
+            - name: Get project version
+              id: get_version
+              run: |
+                  PROJECT_VER="$(grep "\"version\":" manifest.json | grep -o '[0-9]\+\.[0-9]\+\.[0-9]\+')"
+                  PROJECT_VER="project_version=$PROJECT_VER"
+                  echo $PROJECT_VER >> "$GITHUB_OUTPUT"
+                  echo $PROJECT_VER
+
+            - name: Check if tag is already exists
+              uses: mukunku/tag-exists-action@v1.6.0
+              id: check-tag
+              with:
+                  tag: v${{steps.get_version.outputs.project_version}}
+
+    create_release:
+        if: needs.version_check.outputs.tag_exists == false
+        needs: [version_check]
+        permissions:
+            contents: write
+        uses: ./.github/workflows/release.yml
+        with:
+            release_tag: v${{needs.version_check.outputs.project_version}}
