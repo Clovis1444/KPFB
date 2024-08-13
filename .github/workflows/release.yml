@@ -48,7 +48,7 @@ jobs:
             - name: Release
               uses: softprops/action-gh-release@v2
               with:
-                  tag_name: v${{inputs.release_tag}}
+                  tag_name: ${{inputs.release_tag}}
                   target_commitish: ${{github.sha}}
                   draft: true
                   files: ${{steps.artifacts.outputs.download-path}}/*
