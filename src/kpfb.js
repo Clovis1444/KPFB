@@ -74,12 +74,18 @@ class Kpfb {
 	}
 
 	static createButton() {
+		const button_id = "KPFB";
+
+		if (document.getElementById(button_id)) {
+			return;
+		}
+
 		// Button
 		const kpfb_button = document.createElement("img");
-		kpfb_button.id = "KPFB";
+		kpfb_button.id = button_id;
 		kpfb_button.style.width = "48px";
 		kpfb_button.style.height = "48px";
-		kpfb_button.style.paddingRight = "10px";
+		// kpfb_button.style.paddingRight = "10px";
 		kpfb_button.title = "Watch on Flicksbar";
 
 		const img = browser.runtime.getURL("icons/kpfb-48.png");
@@ -94,6 +100,19 @@ class Kpfb {
 
 function main() {
 	Kpfb.createButton();
+
+	// To fix button persistence after redirect
+	// Create button after site redirecting
+	const observer = new MutationObserver(() => {
+		Kpfb.createButton();
+	});
+	observer.observe(document.body, {
+		childList: true,
+		subtree: true,
+	});
+
+	// Fallback for page navigation or if the page is dynamically updated
+	window.addEventListener("load", Kpfb.createButton);
 }
 
 // Call main()
