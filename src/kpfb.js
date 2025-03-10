@@ -47,27 +47,14 @@ class Kpfb {
 		}
 	}
 
-	static #getFilmId(url) {
-		let film = url.pathname.toString();
-
-		if (!film) {
-			throw "Error(KPFB): Failed to find film id";
-		}
-
-		return film;
-	}
-
-	static #createFbLink(film) {
-		return this.#FB_URL + film;
-	}
-
 	// Must handle exceptions when calling this methode
 	static getFbLink(kpUrl) {
 		try {
-			kpUrl = new URL(kpUrl);
-			const film = this.#getFilmId(kpUrl);
+			if (!kpUrl.includes("kinopoisk.ru")) {
+				throw "Error(KPFB): Wrong URL!";
+			}
 
-			return this.#createFbLink(film);
+			return kpUrl.replace("kinopoisk.ru", "sspoisk.ru");
 		} catch (e) {
 			throw e;
 		}
@@ -81,7 +68,7 @@ class Kpfb {
 		}
 
 		// Button
-		const kpfb_button = document.createElement("img");
+		const kpfb_button = document.createElement("button");
 		kpfb_button.id = button_id;
 		kpfb_button.style.width = "48px";
 		kpfb_button.style.height = "48px";
@@ -89,8 +76,12 @@ class Kpfb {
 		kpfb_button.title = "Watch on Flicksbar";
 
 		const img = browser.runtime.getURL("icons/kpfb-48.png");
-		kpfb_button.src = img;
 
+		kpfb_button.style.backgroundImage = `url('${img}')`;
+		kpfb_button.style.backgroundSize = "cover";
+		kpfb_button.style.border = "none";
+
+		// Left click
 		kpfb_button.onclick = this.#BUTTON_ONCLICK;
 
 		const parent = this.#PARENT();
