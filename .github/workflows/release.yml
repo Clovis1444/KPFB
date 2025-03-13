@@ -18,6 +18,9 @@ jobs:
             contents: write
         environment: CI
         runs-on: ubuntu-latest
+        env:
+            JWT_ISSUER: ${{ secrets.JWT_ISSUER }}
+            JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
         steps:
             - name: Checkout repo
@@ -29,7 +32,7 @@ jobs:
               run: npx --yes web-ext build
 
             - name: Sign firefox addon
-              run: npx --yes web-ext sign --api-key ${{ secrets.JWT_ISSUER }} --api-secret ${{ secrets.JWT_SECRET }} --channel unlisted
+              run: npx --yes web-ext sign --api-key ${{ env.JWT_ISSUER }} --api-secret ${{ env.JWT_SECRET }} --channel unlisted
 
             - name: Upload zip
               uses: actions/upload-artifact@v4
