@@ -77,6 +77,7 @@ class Kpfb {
 
 		const img = browser.runtime.getURL("icons/kpfb-48.png");
 
+		kpfb_button.style.backgroundColor = "transparent";
 		kpfb_button.style.backgroundImage = `url('${img}')`;
 		kpfb_button.style.backgroundSize = "cover";
 		kpfb_button.style.border = "none";
