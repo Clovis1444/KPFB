@@ -40,4 +40,4 @@ jobs:
             contents: write
         uses: ./.github/workflows/release.yml
         with:
-            release_tag: v${{needs.version_check.outputs.project_version}}
+            release_tag: ${{needs.version_check.outputs.project_version}}
