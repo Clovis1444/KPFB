@@ -32,7 +32,7 @@ jobs:
               run: npx --yes web-ext build
 
             - name: Sign firefox addon
-              run: npx --yes web-ext sign --api-key ${{ env.JWT_ISSUER }} --api-secret ${{ env.JWT_SECRET }} --channel unlisted
+              run: npx --yes web-ext sign --api-key $JWT_ISSUER --api-secret $JWT_SECRET --channel unlisted
 
             - name: Upload zip
               uses: actions/upload-artifact@v4
